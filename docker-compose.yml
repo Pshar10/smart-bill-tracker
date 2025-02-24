@@ -1,0 +1,15 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64  
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CHROME_BIN=/usr/bin/chromium
+      - CHROMEDRIVER_BIN=/usr/bin/chromedriver
+    restart: always

@@ -1,0 +1,412 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f1f1f;
+    padding: 10px 20px; /* Reduced padding for header */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px; /* Reduced height of logo */
+    max-height: 100%; /* Ensures it scales correctly */
+    margin-right: 10px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Increased gap for better spacing */
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #4caf50;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 60px 20px; /* Increased padding for more emphasis */
+    background: linear-gradient(45deg, #2b2b2b, #1f1f1f);
+}
+
+.hero h2 {
+    font-size: 2.5em; /* Slightly larger font for prominence */
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #4caf50;
+    color: #ffffff;
+    padding: 15px 30px; /* Adjusted for a more substantial button */
+    font-size: 1.2em;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.cta-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.cta-button:active {
+    transform: translateY(0); /* Return to original position */
+}
+
+/* Features Section */
+.features {
+    text-align: center;
+    padding: 60px 20px; /* Increased padding for balance */
+    background-color: #1b1b1b;
+}
+
+.features h2 {
+    font-size: 2.5em; /* Increased font size */
+    margin-bottom: 20px;
+}
+
+.features-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Increased gap for spacing */
+    flex-wrap: wrap;
+}
+
+.feature {
+    background-color: #2b2b2b;
+    padding: 30px; /* More padding for better content separation */
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+}
+
+.feature h3 {
+    color: #4caf50;
+}
+
+/* Image Styling - Maintaining Aspect Ratio */
+#graphImage,
+#electricityChart {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+/* Adjust container width for better responsiveness */
+.container {
+    width: 90%; /* Slightly wider for better fit */
+    max-width: 800px;
+    margin: 20px auto;
+    background: #1b1b1b;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    border-radius: 10px;
+    padding: 30px; /* Increased padding */
+    text-align: center;
+}
+
+/* Ensure the loading container only takes up necessary space */
+#loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    padding: 20px 0;
+}
+
+/* Hide loading container when not in use */
+#loadingContainer.hidden {
+    display: none;
+}
+
+/* Properly size chart */
+#electricityChart {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    display: none; /* Hidden until data loads */
+}
+
+/* Refresh Button */
+#refreshBtn {
+    background-color: #4caf50;
+    display: block;
+    color: white;
+    border: none;
+    padding: 12px 20px; /* Increased padding */
+    font-size: 16px;
+    margin-top: 15px; /* Adjusted margin */
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#refreshBtn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+#refreshBtn:active {
+    background-color: #45a049;
+    transform: scale(1);
+}
+
+/* Footer */
+footer {
+    background-color: #1f1f1f;
+    text-align: center;
+    padding: 20px; /* Increased padding for balance */
+}
+
+/* Center the Loading GIF and Message */
+
+/* Styling for Loading GIF */
+#loadingGif {
+    width: 200px;
+    height: 200px;
+    display: none;
+}
+
+/* Loading Text */
+#loadingMessage {
+    font-size: 1.5em; /* Increased font size for visibility */
+    color: #ffcc00;
+    font-weight: bold;
+    display: none; /* Hidden initially */
+}
+
+#forminput {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    padding: 30px; /* Increased padding */
+    background-color: #121212;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    border: 1px solid #1e1e1e;
+}
+
+#forminput label {
+    font-size: 18px; /* Increased font size */
+    font-weight: bold;
+    margin-bottom: 10px; /* Adjusted margin */
+    color: #cfcfcf;
+}
+
+#consumerIdInput {
+    width: 100%;
+    padding: 12px; /* Increased padding */
+    margin-bottom: 15px; /* Adjusted margin */
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: 16px; /* Increased font size */
+    background-color: #1a1a1a;
+    color: #cfcfcf;
+    transition: border-color 0.3s;
+}
+
+#consumerIdInput:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#fetchBtn {
+    width: 100%;
+    padding: 12px; /* Increased padding */
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#fetchBtn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+#fetchBtn:active {
+    background-color: #45a049;
+    transform: scale(1);
+}
+
+/* Styling for displayed Consumer ID */
+#consumerDisplay {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    font-size: 20px;
+    font-weight: bold;
+    color: #00aaff;
+    border: 1px solid #45a049;
+}
+
+/* Hide elements by default */
+.hidden {
+    display: none;
+}
+
+/* Consumer Display */
+#consumerDisplay {
+    font-size: 20px;
+    color: #00aaff;
+    margin-top: 20px;
+}
+
+/* Reset Button */
+#resetBtn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 20px; /* Increased padding */
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: none;
+}
+
+#resetBtn:hover {
+    background-color: #45a049;
+}
+
+/* Popup Styling */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Slightly darker overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popup-box {
+    background: #222;
+    color: #fff;
+    padding: 30px; /* Increased padding */
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Enhanced shadow */
+    width: 300px;
+}
+
+.popup-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.popup-btn {
+    padding: 12px 20px; /* Increased padding */
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.popup-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.popup-btn:active {
+    transform: scale(1);
+}
+
+.popup-btn.cancel {
+    background-color: #d9534f;
+}
+
+.popup-btn.cancel:hover {
+    background-color: #c9302c;
+}
+
+/* Smooth scrolling for navigation links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .features-grid {
+        flex-direction: column; /* Stack features on small screens */
+        gap: 15px; /* Reduced gap for smaller screens */
+    }
+
+    .feature {
+        width: 90%; /* Adjust feature width for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    nav ul {
+        flex-direction: column; /* Stack nav items on small screens */
+        gap: 10px;
+    }
+
+    .hero h2 {
+        font-size: 2em; /* Adjust hero text size for mobile */
+    }
+
+    .cta-button {
+        padding: 12px 20px; /* Adjust button padding for mobile */
+    }
+}
+
+

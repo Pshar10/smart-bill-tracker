@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Bill Dekho - Smart Electricity Cost Analysis</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bill_dekho/css/styles.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'bill_dekho/images/favicon.ico' %}">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="{% static 'bill_dekho/images/logo.png' %}" alt="Bill Dekho Logo">
+
+            <h1>Bill Dekho</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Analyze & Optimize Your Electricity Costs with Bill Dekho</h2>
+        <p>Track your electricity usage in real time, understand trends, and save on bills with smart analytics.</p>
+        <!-- <a href="#graphSection" class="cta-button">Watch Your Bill</a> -->
+    </section>
+
+    <main>
+        <div class="container">
+            <div id="forminput">
+                <label for="consumerIdInput">Enter Consumer ID:</label>
+                <input type="text" id="consumerIdInput" placeholder="Enter Consumer ID">
+                <button id="fetchBtn">Watch Your Bill</button>
+            </div>
+            
+            <div id="consumerDisplay" style="display: none; text-align: center; color: #cfcfcf; font-size: 18px; font-weight: bold;"></div>
+            <button id="resetBtn" class="hidden">Reset</button>
+
+            
+
+            <!-- Loading GIF and Message -->
+            <div id="loadingContainer">
+                <img id="loadingGif" src="https://i.gifer.com/74pZ.gif" alt="Loading..." />
+                <p id="loadingMessage">Loading...</p>
+            </div>
+        
+            <!-- Chart Canvas -->
+            <canvas id="electricityChart"></canvas>
+        
+            <button id="refreshBtn">Refresh Graph</button>
+        </div>
+    </main>
+    
+
+    <footer>
+        <p>&copy; 2025 Bill Dekho. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="{% static 'bill_dekho/js/script.js' %}"></script>
+
+</body>
+</html>
