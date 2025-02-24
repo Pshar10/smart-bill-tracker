@@ -1,132 +1,147 @@
-
 # Bill Dekho
 
 ## Overview
 
-Welcome to **Bill Dekho**! This web application is designed to help users analyze and optimize their electricity costs through smart analytics. My aim is to provide an intuitive platform where users can track their electricity usage in real time, understand consumption trends, and ultimately save on their bills.
+**Bill Dekho** is a web application designed to help users analyze their electricity consumption and optimize costs. The application fetches smart meter readings from the **JPDCL website**, processes the data, and provides **daily energy usage insights and cost estimates**. 
+
+By leveraging **web scraping**, the app automatically retrieves **electricity meter readings** based on a user's **consumer ID**, structures the data, and calculates **daily power consumption and costs** using **data processing techniques**.
+
+## How It Works
+
+1. **User Input**: Users enter their **consumer ID** on the web application.
+2. **Data Retrieval**: The backend uses **Selenium** to scrape electricity meter readings from the official **JPDCL smart meter portal**.
+3. **Data Processing**:
+   - Extracts **date-wise readings** of **kWh (kilowatt-hours) and kVAh (kilovolt-ampere hours)**.
+   - Sorts the data chronologically and calculates **daily power consumption (difference between consecutive readings)**.
+   - Estimates **daily electricity costs** using a predefined rate (**₹4.37 per unit**).
+4. **Data Visualization**: The results are **displayed as a graph**, showing daily power consumption trends and costs.
 
 ## Technology Stack
 
-The following technologies have been used in the development of Bill Dekho:
+### **Frontend**
+- **HTML, CSS, JavaScript** for the web interface
+- **Bootstrap** for responsive design
+- **Chart.js** for interactive data visualization
 
-- **Frontend:** 
-  - HTML
-  - CSS (Bootstrap for responsive design)
-  - JavaScript (Chart.js for data visualization)
+### **Backend**
+- **Django (Python)** for handling requests and business logic
+- **Selenium** for automated web scraping of electricity meter data
+- **Pandas** for data processing and analysis
 
-- **Backend:**
-  - Django (Python) for handling requests and business logic
-  - Docker for containerization
-  - Nginx for serving the application and managing redirects
+### **Infrastructure**
+- **Docker** for containerization and easy deployment
+- **Nginx** for serving the application and managing redirects
 
-- **Database:**
-  - SQLite (or your preferred database)
+### **Database**
+- **SQLite** (or a configurable database of choice)
+
+---
 
 ## Features
 
-- **User-Friendly Interface:** A clean and easy-to-navigate interface for users to enter their consumer ID and view their electricity bill.
-- **Real-Time Data Analysis:** Users can see their electricity consumption data represented in visually appealing charts.
-- **Dynamic Redirection:** The application seamlessly redirects from the main domain to the application running on port 8000.
+✅ **Automated Data Fetching**: No need for manual data entry—just enter your **consumer ID**, and Bill Dekho fetches the latest smart meter readings.  
+✅ **Daily Power Consumption Analysis**: Understand your energy usage over time.  
+✅ **Cost Estimation**: Know how much you're spending daily on electricity.  
+✅ **Intuitive Graphs**: Visualize energy trends in an easy-to-read format.  
+✅ **Fast and Lightweight**: Built using **Django** and deployed with **Docker** for efficiency.
+
+---
 
 ## Screenshot
 
 ![Web Application Screenshot](webapp.png)
 
+---
 
 ## Installation and Setup
 
-Follow these steps to set up the Bill Dekho application on your local machine or server:
-
-### Prerequisites
-
-- Ensure you have Docker installed on your machine. If you haven't installed it yet, you can do so using the following commands on Ubuntu:
-
+### **Prerequisites**
+- **Docker** must be installed on your machine. If not, install it using:
   ```bash
   sudo apt update
   sudo apt install docker.io
   sudo usermod -aG docker $USER
   ```
+  (Log out and log back in to apply changes.)
 
-  (Log out and log back in to apply the changes.)
+### **Cloning the Repository**
+```bash
+git clone https://github.com/Pshar10/smart-bill-tracker.git
+cd smart-bill-tracker
+```
 
-### Building the Docker Image
+### **Building the Docker Image**
+```bash
+docker buildx build --platform linux/amd64 -t pshar10/bill_dekho:v3 --output type=docker .
+```
 
-1. Clone the repository to your local machine:
+### **Pushing the Docker Image**
+```bash
+docker push pshar10/bill_dekho:v3
+```
 
-   ```bash
-   git clone https://github.com/Pshar10/bill_dekho.git
-   cd bill_dekho
-   ```
+### **Running the Application**
+```bash
+docker run -d -p 8000:8000 --name bill_dekho pshar10/bill_dekho:v3
+```
 
-2. Build the Docker image using the following command:
+---
 
-   ```bash
-   docker buildx build --platform linux/amd64 -t pshar10/bill_dekho:v3 --output type=docker .
-   ```
+## Setting Up Nginx for Reverse Proxy
 
-3. Push the Docker image to your Docker Hub repository:
+### **Installing Nginx**
+```bash
+sudo apt update
+sudo apt install nginx
+```
 
-   ```bash
-   docker push pshar10/bill_dekho:v3
-   ```
+### **Configuring Nginx**
+Edit the default configuration file:
+```bash
+sudo nano /etc/nginx/sites-available/default
+```
+Replace its contents with:
 
-### Running the Application
+```nginx
+server {
+    listen 80;
+    server_name $host app.myself-pranav-sharma.online;  # Replace with your domain or server IP
 
-1. Start the Docker container, mapping port 8000:
+    location / {
+        return 301 http://$host:8000$request_uri;  # Redirect to the Django application
+    }
+}
+```
 
-   ```bash
-   docker run -d -p 8000:8000 --name bill_dekho pshar10/bill_dekho:v3
-   ```
+### **Applying Changes**
+```bash
+sudo nginx -t  # Test configuration
+sudo systemctl reload nginx  # Reload Nginx
+```
 
-### Setting Up Nginx
-
-1. Install Nginx on your server if you haven't done so already:
-
-   ```bash
-   sudo apt update
-   sudo apt install nginx
-   ```
-
-2. Configure Nginx by editing the default configuration file:
-
-   ```bash
-   sudo nano /etc/nginx/sites-available/default
-   ```
-
-   Replace its contents with the following:
-
-   ```nginx
-   server {
-       listen 80;
-       server_name $host app.myself-pranav-sharma.online;  # Replace with your server's IP or domain name
-
-       location / {
-           return 301 http://$host:8000$request_uri;  # Redirect to port 8000
-       }
-   }
-   ```
-
-3. Test the Nginx configuration for any syntax errors:
-
-   ```bash
-   sudo nginx -t
-   ```
-
-4. Reload Nginx to apply the changes:
-
-   ```bash
-   sudo systemctl reload nginx
-   ```
+---
 
 ## Usage
 
-Once everything is set up and running, you can access Bill Dekho by navigating to your server's IP address or domain in a web browser. Enter your consumer ID to view your electricity bill and analyze your consumption data.
+1. **Visit the website** (or server IP/domain).
+2. **Enter your consumer ID** and submit.
+3. **View your electricity usage trends and estimated daily costs** in an interactive chart.
+
+---
 
 ## Contribution
 
-If you would like to contribute to this project, feel free to fork the repository and submit a pull request. Any feedback or suggestions are also welcome!
+Want to improve **Bill Dekho**?  
+- Fork the repository  
+- Submit a **Pull Request** with your improvements  
+- Suggestions & feedback are always welcome!  
+
+---
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License**.
 
+---
+
+Let me know if you need any modifications! 🚀
