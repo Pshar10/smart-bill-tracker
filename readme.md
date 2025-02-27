@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Bill Dekho** is a web application designed to help users analyze their electricity consumption and optimize costs. The application fetches smart meter readings from the **JPDCL website**, processes the data, and provides **daily energy usage insights and cost estimates**. 
+**Bill Dekho** is a web application designed to help users analyze their electricity consumption and optimize costs. The application fetches smart meter readings from the **JPDCL website**, processes the data, and provides **daily energy usage insights and cost estimates**.
 
 By leveraging **web scraping**, the app automatically retrieves **electricity meter readings** based on a user's **consumer ID**, structures the data, and calculates **daily power consumption and costs** using **data processing techniques**.
 
@@ -72,22 +72,22 @@ cd smart-bill-tracker
 
 ### **Building the Docker Image**
 ```bash
-docker buildx build --platform linux/amd64 -t pshar10/bill_dekho:v3 --output type=docker .
+docker buildx build --platform linux/amd64 -t pshar10/bill_dekho:v4 --output type=docker .
 ```
 
 ### **Pushing the Docker Image**
 ```bash
-docker push pshar10/bill_dekho:v3
+docker push pshar10/bill_dekho:v4
 ```
 
 ### **Running the Application**
 ```bash
-docker run -d -p 8000:8000 --name bill_dekho pshar10/bill_dekho:v3
+docker run -d -p 8000:8000 --name bill_dekho pshar10/bill_dekho:v4
 ```
 
 ---
 
-## Setting Up Nginx for Reverse Proxy
+## Setting Up Nginx for Reverse Proxy and SSL
 
 ### **Installing Nginx**
 ```bash
@@ -95,8 +95,16 @@ sudo apt update
 sudo apt install nginx
 ```
 
+### **Installing Let's Encrypt SSL Certificate**
+Install Certbot and obtain an SSL certificate:
+```bash
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d app.myself-pranav-sharma.online
+```
+Follow the prompts and Certbot will automatically configure SSL for Nginx.
+
 ### **Configuring Nginx**
-Edit the default configuration file:
+Edit the Nginx configuration file:
 ```bash
 sudo nano /etc/nginx/sites-available/default
 ```
@@ -105,10 +113,30 @@ Replace its contents with:
 ```nginx
 server {
     listen 80;
-    server_name $host app.myself-pranav-sharma.online;  # Replace with your domain or server IP
+    server_name app.myself-pranav-sharma.online;
+    return 301 https://$host$request_uri;  # Redirect HTTP to HTTPS
+}
+
+server {
+    listen 443 ssl;
+    server_name app.myself-pranav-sharma.online;
+
+    ssl_certificate /etc/letsencrypt/live/app.myself-pranav-sharma.online/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.myself-pranav-sharma.online/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
-        return 301 http://$host:8000$request_uri;  # Redirect to the Django application
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+
+    location /test {
+        return 200 "HTTPS is working!";
+        add_header Content-Type text/plain;
     }
 }
 ```
@@ -117,6 +145,16 @@ server {
 ```bash
 sudo nginx -t  # Test configuration
 sudo systemctl reload nginx  # Reload Nginx
+```
+
+### **Automatic SSL Renewal**
+Set up a cron job to renew SSL certificates automatically:
+```bash
+sudo crontab -e
+```
+Add the following line:
+```bash
+0 0 * * * certbot renew --quiet
 ```
 
 ---
@@ -145,3 +183,4 @@ This project is licensed under the **MIT License**.
 ---
 
 Let me know if you need any modifications! 🚀
+
